@@ -33,7 +33,7 @@ pipeline {
             }
         }
 
-               stage('Docker build'){
+        stage('Docker build'){
             steps{
                 sh """
                     aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
@@ -47,14 +47,15 @@ pipeline {
 
         stage('Deploy'){
             steps{
-                sh """ 
+                sh """
                     aws eks update-kubeconfig --region us-east-1 --name expense-dev
                     cd helm
                     sed -i 's/IMAGE_VERSION/${appVersion}/g' values.yaml
-                    helm install frontend .
+                    helm upgrade frontend .
                 """
             }
         }
+
 
         // stage('Nexus Artifact Upload'){
         //     steps{
