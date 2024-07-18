@@ -53,7 +53,7 @@ pipeline {
                     sed -i 's/IMAGE_VERSION/${appVersion}/g' values.yaml
                     helm install frontend .
                 """
-            }
+            }// 1st helm install backend .   2nd helm upgrade backend .
         }
 
 
